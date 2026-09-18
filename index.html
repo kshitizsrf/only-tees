@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HANGER &amp; CO. — Shirts off the rack</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-head">
+    <div class="brand">
+      <svg class="brand-hook" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 3 C24 3 27 6 27 10 C27 13 24 15 21 15 L34 27 L6 27 Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-name">HANGER <em>&amp; CO.</em></span>
+    </div>
+    <p class="brand-tag">shirts, off the rack — since no particular year</p>
+    <nav class="site-nav">
+      <button id="btn-basket" class="basket-btn" aria-label="Open basket">
+        <svg viewBox="0 0 40 30" aria-hidden="true">
+          <path d="M4 10 L36 10 L32 27 L8 27 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M13 10 C13 4 27 4 27 10" fill="none" stroke="currentColor" stroke-width="2.2"/>
+        </svg>
+        <span>basket</span>
+        <span id="basket-count" class="basket-count">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <section class="intro">
+    <h1>Pull one off the rack.<br>See how it hangs.</h1>
+    <p>Twelve shirts, four small collections, no size guessing games. <span class="underline-doodle">Drag the rail</span> to browse — click a shirt to take it down and try a colour.</p>
+  </section>
+
+  <nav class="tag-filters" id="tag-filters" aria-label="Filter by collection">
+    <button class="tag-filter is-active" data-filter="all">All <i>12</i></button>
+    <button class="tag-filter" data-filter="Classics">Classics</button>
+    <button class="tag-filter" data-filter="Minimal Line">Minimal Line</button>
+    <button class="tag-filter" data-filter="Statement">Statement</button>
+    <button class="tag-filter" data-filter="Limited Drop">Limited Drop</button>
+  </nav>
+
+  <main>
+    <div class="rail-wrap">
+      <div class="rail-bar" aria-hidden="true"></div>
+      <div class="rack" id="rack" tabindex="0" aria-label="Shirt rack, drag horizontally to browse"></div>
+    </div>
+
+    <div class="tape-wrap" aria-hidden="true">
+      <svg class="tape" id="tape" viewBox="0 0 1000 34" preserveAspectRatio="none"></svg>
+      <div class="tape-marker" id="tape-marker"></div>
+    </div>
+    <p class="drag-hint" id="drag-hint">← drag to keep browsing →</p>
+  </main>
+
+  <footer class="site-foot">
+    <div class="care-icons" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.4"/><text x="12" y="16" text-anchor="middle" font-size="9" font-family="monospace" fill="currentColor">30°</text></svg>
+      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="1.4"/></svg>
+      <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="8" y1="8" x2="16" y2="8" stroke="currentColor" stroke-width="1.4"/></svg>
+    </div>
+    <p>Mock shop for demonstration purposes — no real orders, no real payments. &copy; <span id="year"></span> Hanger &amp; Co.</p>
+  </footer>
+
+  <!-- DETAIL DRAWER -->
+  <div class="scrim" id="detail-scrim"></div>
+  <aside class="drawer detail-drawer" id="detail-drawer" aria-hidden="true">
+    <button class="drawer-close" id="detail-close" aria-label="Close">×</button>
+    <div class="detail-body" id="detail-body"><!-- injected --></div>
+  </aside>
+
+  <!-- BASKET DRAWER -->
+  <div class="scrim" id="basket-scrim"></div>
+  <aside class="drawer basket-drawer" id="basket-drawer" aria-hidden="true">
+    <button class="drawer-close" id="basket-close" aria-label="Close">×</button>
+    <h2 class="ticket-title">Your Basket</h2>
+    <div class="basket-lines" id="basket-lines"></div>
+    <div class="basket-summary" id="basket-summary"></div>
+  </aside>
+
+  <!-- CHECKOUT -->
+  <div class="scrim" id="checkout-scrim"></div>
+  <aside class="drawer checkout-drawer" id="checkout-drawer" aria-hidden="true">
+    <button class="drawer-close" id="checkout-close" aria-label="Close">×</button>
+    <div id="checkout-body"></div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>

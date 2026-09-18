@@ -1,0 +1,509 @@
+/* ---------------------------------------------------------------
+   HANGER & CO. — a t-shirt shop styled like a physical clothes rack
+   ------------------------------------------------------------- */
+
+:root{
+  --paper: #f2ead9;
+  --paper-2: #e9ddc2;
+  --ink: #262019;
+  --ink-soft: #4a4038;
+  --rust: #c1502e;
+  --olive: #6b7455;
+  --line: #262019;
+  --card: #fbf6ea;
+  --shadow: rgba(38,32,25,.18);
+
+  --c-cream: #e6dab8;
+  --c-ink: #2c2620;
+  --c-rust: #bf5432;
+  --c-olive: #6f7a56;
+  --c-dust: #d9a79f;
+}
+
+*{ box-sizing: border-box; }
+html,body{ margin:0; padding:0; }
+
+body{
+  background: var(--paper);
+  background-image:
+    radial-gradient(rgba(38,32,25,.05) 1px, transparent 1px);
+  background-size: 3px 3px;
+  color: var(--ink);
+  font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::selection{ background: var(--rust); color: var(--paper); }
+
+.mono{ font-family: 'Courier New', ui-monospace, Consolas, monospace; }
+
+/* ---------------- header ---------------- */
+.site-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 18px 28px 26px;
+  border-bottom: 2px solid var(--ink);
+  position: relative;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.brand{ display:flex; align-items:center; gap:8px; }
+.brand-hook{ width:30px; height:30px; color: var(--rust); flex-shrink:0; }
+.brand-name{
+  font-size: 1.5rem;
+  letter-spacing: .05em;
+  font-weight: bold;
+}
+.brand-name em{ font-style: normal; color: var(--rust); }
+.brand-tag{
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  color: var(--ink-soft);
+  letter-spacing: .03em;
+  position: absolute;
+  left: 66px;
+  top: 46px;
+}
+@media (max-width: 640px){ .brand-tag{ position: static; margin: 2px 0 0 38px; } }
+
+.basket-btn{
+  display:flex; align-items:center; gap:8px;
+  background: var(--card);
+  border: 1.6px solid var(--ink);
+  border-radius: 3px;
+  padding: 8px 14px;
+  font-family: 'Courier New', monospace;
+  font-size: .85rem;
+  letter-spacing: .04em;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 3px 3px 0 var(--shadow);
+  transition: transform .15s ease;
+}
+.basket-btn:hover{ transform: translate(-1px,-1px); }
+.basket-btn:active{ transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--shadow); }
+.basket-btn svg{ width: 26px; height: 20px; color: var(--ink); }
+.basket-count{
+  background: var(--rust);
+  color: var(--paper);
+  border-radius: 50%;
+  min-width: 20px; height: 20px;
+  display:flex; align-items:center; justify-content:center;
+  font-size: .72rem;
+  padding: 0 3px;
+}
+.basket-count.bump{ animation: bump .35s ease; }
+@keyframes bump{ 0%{transform:scale(1)} 40%{transform:scale(1.5)} 100%{transform:scale(1)} }
+
+/* ---------------- intro ---------------- */
+.intro{ padding: 30px 28px 6px; max-width: 640px; }
+.intro h1{
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  line-height: 1.15;
+  margin: 0 0 12px;
+}
+.intro p{ color: var(--ink-soft); line-height: 1.5; }
+.underline-doodle{
+  position: relative;
+  white-space: nowrap;
+}
+.underline-doodle::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-3px; height:6px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 6'><path d='M0 3 Q7 0 14 3 T28 3 T42 3 T56 3' fill='none' stroke='%23c1502e' stroke-width='2'/></svg>") repeat-x;
+  background-size: 40px 6px;
+}
+
+/* ---------------- filter tags ---------------- */
+.tag-filters{
+  display:flex; gap:10px; flex-wrap: wrap;
+  padding: 10px 28px 4px;
+}
+.tag-filter{
+  font-family: 'Courier New', monospace;
+  font-size: .78rem;
+  background: var(--paper-2);
+  border: 1.4px dashed var(--ink-soft);
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+.tag-filter i{ font-style: normal; opacity:.6; margin-left: 3px; }
+.tag-filter:hover{ background: var(--card); }
+.tag-filter.is-active{
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  border-style: solid;
+}
+
+/* ---------------- the rack ---------------- */
+.rail-wrap{
+  position: relative;
+  margin-top: 34px;
+  padding-top: 6px;
+}
+.rail-bar{
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 10px;
+  background:
+    repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 26px);
+  background-position-y: 2px;
+  opacity: .55;
+}
+.rail-bar::before{
+  content:"";
+  position:absolute; left:0; right:0; top:4px; height:3px;
+  background: var(--ink);
+}
+
+.rack{
+  display:flex;
+  align-items: flex-start;
+  gap: 26px;
+  padding: 26px 8vw 40px;
+  overflow-x: auto;
+  overflow-y: visible;
+  cursor: grab;
+  scrollbar-width: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.rack:active{ cursor: grabbing; }
+.rack::-webkit-scrollbar{ display:none; }
+.rack.dragging *{ pointer-events: none; }
+
+.hanger-item{
+  flex: 0 0 auto;
+  width: 158px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 6px;
+}
+
+.hanger-icon{
+  width: 46px; height: 30px;
+  color: var(--ink);
+  margin-bottom: -6px;
+  transform-origin: 50% 10%;
+}
+
+.shirt-swing{
+  transform-origin: 50% 4%;
+  animation: sway 5.5s ease-in-out infinite;
+  cursor: pointer;
+  filter: drop-shadow(2px 6px 4px var(--shadow));
+  transition: transform .25s ease;
+}
+.hanger-item:nth-child(2n) .shirt-swing{ animation-duration: 6.4s; animation-delay: -1.2s; }
+.hanger-item:nth-child(3n) .shirt-swing{ animation-duration: 4.8s; animation-delay: -2.6s; }
+.shirt-swing:hover{ transform: scale(1.05) rotate(0deg) !important; }
+.shirt-swing.unhooked{
+  animation: unhook .5s ease forwards;
+}
+@keyframes sway{
+  0%,100%{ transform: rotate(-3deg); }
+  50%{ transform: rotate(3deg); }
+}
+@keyframes unhook{
+  0%{ transform: rotate(0deg) translateY(0) scale(1); }
+  40%{ transform: rotate(-14deg) translateY(4px) scale(1.03); }
+  100%{ transform: rotate(-14deg) translateY(120px) scale(.85); opacity: 0; }
+}
+
+.shirt-svg{ height: 150px; width: auto; display:block; }
+
+.price-tag{
+  margin-top: 2px;
+  background: var(--card);
+  border: 1.3px solid var(--ink);
+  padding: 5px 9px 6px;
+  font-family: 'Courier New', monospace;
+  font-size: .68rem;
+  text-align: center;
+  position: relative;
+  box-shadow: 2px 2px 0 var(--shadow);
+  max-width: 140px;
+}
+.price-tag::before{
+  content:"";
+  position:absolute; left:50%; top:-14px; width:1px; height:14px;
+  border-left: 1.3px dashed var(--ink-soft);
+  transform: translateX(-50%);
+}
+.price-tag .tag-name{ display:block; font-weight:bold; color: var(--ink); margin-bottom:2px; white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
+.price-tag .tag-price{ color: var(--rust); font-weight:bold; }
+.price-tag .tag-hole{
+  position:absolute; top:4px; left:50%; transform: translateX(-50%);
+  width:5px; height:5px; border-radius:50%;
+  background: var(--paper); border: 1px solid var(--ink-soft);
+}
+
+/* ---------------- tape measure scroll indicator ---------------- */
+.tape-wrap{
+  position: relative;
+  margin: -8px 8vw 6px;
+  height: 34px;
+}
+.tape{ width:100%; height:34px; display:block; color: var(--ink-soft); }
+.tape-marker{
+  position:absolute; top:-6px; left:0;
+  width:2px; height:46px;
+  background: var(--rust);
+  transition: left .05s linear;
+}
+.tape-marker::after{
+  content:"";
+  position:absolute; top:-5px; left:-4px;
+  width:10px; height:10px;
+  background: var(--rust);
+  border-radius: 50%;
+}
+.drag-hint{
+  text-align:center;
+  font-family:'Courier New', monospace;
+  font-size:.72rem;
+  color: var(--ink-soft);
+  opacity: .7;
+  margin: 0 0 30px;
+}
+
+/* ---------------- footer ---------------- */
+.site-foot{
+  border-top: 2px solid var(--ink);
+  padding: 20px 28px 40px;
+  text-align:center;
+  color: var(--ink-soft);
+  font-size: .78rem;
+}
+.care-icons{ display:flex; justify-content:center; gap:14px; margin-bottom:10px; }
+.care-icons svg{ width:22px; height:22px; color: var(--ink-soft); }
+
+/* ---------------- drawers ---------------- */
+.scrim{
+  position: fixed; inset:0;
+  background: rgba(38,32,25,.35);
+  opacity:0; pointer-events:none;
+  transition: opacity .25s ease;
+  z-index: 40;
+}
+.scrim.is-open{ opacity:1; pointer-events:auto; }
+
+.drawer{
+  position: fixed;
+  top:0; right:0;
+  height:100%;
+  width: min(420px, 92vw);
+  background: var(--paper);
+  border-left: 2px solid var(--ink);
+  box-shadow: -6px 0 20px var(--shadow);
+  transform: translateX(105%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  z-index: 50;
+  overflow-y: auto;
+  padding: 22px;
+}
+.drawer.is-open{ transform: translateX(0); }
+
+.drawer-close{
+  position: sticky; top:0; float:right;
+  background: var(--card);
+  border: 1.4px solid var(--ink);
+  width: 34px; height:34px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor:pointer;
+  line-height:1;
+}
+
+/* detail drawer content */
+.detail-body{ clear:both; padding-top: 6px; }
+.detail-stage{
+  background: var(--paper-2);
+  border: 1.4px dashed var(--ink-soft);
+  border-radius: 6px;
+  display:flex; align-items:center; justify-content:center;
+  padding: 18px 0 8px;
+  margin-bottom: 16px;
+}
+.detail-stage .shirt-svg{ height: 230px; width: auto; }
+.detail-collection{
+  font-family:'Courier New', monospace;
+  font-size:.7rem;
+  color: var(--rust);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.detail-body h2{ margin: 4px 0 2px; font-size:1.5rem; }
+.detail-price{ font-family:'Courier New',monospace; font-weight:bold; color:var(--ink); margin-bottom:10px; }
+.detail-desc{ color: var(--ink-soft); line-height:1.5; font-size:.92rem; margin-bottom: 16px; }
+
+.field-label{
+  font-family:'Courier New', monospace;
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--ink-soft);
+  margin: 14px 0 8px;
+  display:block;
+}
+.swatches{ display:flex; gap:10px; }
+.swatch{
+  width: 30px; height:30px; border-radius:50%;
+  border: 2px solid var(--ink);
+  cursor:pointer;
+  position: relative;
+}
+.swatch.is-selected::after{
+  content:"";
+  position:absolute; inset:-5px;
+  border: 1.6px solid var(--rust);
+  border-radius: 50%;
+}
+
+.ruler-sizes{
+  display:flex;
+  border-bottom: 2px solid var(--ink);
+  position: relative;
+}
+.ruler-size{
+  flex:1;
+  text-align:center;
+  padding: 10px 0 8px;
+  cursor:pointer;
+  font-family:'Courier New',monospace;
+  font-size:.85rem;
+  border-right: 1px solid var(--ink-soft);
+  position:relative;
+}
+.ruler-size:last-child{ border-right:none; }
+.ruler-size::before{
+  content:"";
+  position:absolute; bottom:-2px; left:50%; transform:translateX(-50%);
+  width:1px; height:6px; background: var(--ink);
+}
+.ruler-size.is-selected{ background: var(--ink); color: var(--paper); }
+
+.qty-row{ display:flex; align-items:center; gap:14px; margin-top:16px; }
+.qty-stepper{ display:flex; align-items:center; border:1.4px solid var(--ink); border-radius:20px; overflow:hidden; }
+.qty-stepper button{
+  background: var(--card); border:none; width:32px; height:32px; font-size:1rem; cursor:pointer;
+}
+.qty-stepper span{ width: 30px; text-align:center; font-family:'Courier New',monospace; }
+
+.btn-stitched{
+  display:block; width:100%;
+  margin-top: 20px;
+  background: var(--rust);
+  color: var(--paper);
+  border: none;
+  border-radius: 4px;
+  padding: 13px;
+  font-family: 'Courier New', monospace;
+  font-size: .95rem;
+  letter-spacing: .04em;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.btn-stitched::after{
+  content:"";
+  position:absolute; inset: 4px;
+  border: 1px dashed rgba(242,234,217,.7);
+  border-radius: 2px;
+  pointer-events:none;
+}
+.btn-stitched:hover{ filter: brightness(1.06); }
+.btn-stitched:active{ transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+.btn-stitched.secondary{
+  background: var(--card); color: var(--ink); box-shadow: 3px 3px 0 var(--shadow);
+}
+.btn-stitched:disabled{ opacity:.5; cursor:not-allowed; }
+
+.added-flash{
+  text-align:center; font-family:'Courier New',monospace; font-size:.78rem;
+  color: var(--olive); height: 16px; margin-top:8px;
+}
+
+/* basket drawer */
+.ticket-title{ font-size:1.4rem; margin: 4px 0 16px; clear:both; }
+.basket-empty{ color: var(--ink-soft); font-family:'Courier New',monospace; font-size:.85rem; text-align:center; padding: 40px 0; }
+.basket-line{
+  display:flex; gap:12px; align-items:flex-start;
+  padding: 12px 0; border-bottom: 1px dashed var(--ink-soft);
+}
+.basket-line .shirt-svg{ height:64px; width:auto; flex-shrink:0; }
+.basket-line-info{ flex:1; }
+.basket-line-info .bl-name{ font-weight:bold; }
+.basket-line-info .bl-meta{ font-family:'Courier New',monospace; font-size:.72rem; color: var(--ink-soft); margin: 2px 0 6px; }
+.bl-row{ display:flex; align-items:center; justify-content:space-between; }
+.bl-remove{ background:none; border:none; color: var(--rust); font-family:'Courier New',monospace; font-size:.72rem; cursor:pointer; text-decoration: underline; }
+.bl-qty{ display:flex; align-items:center; border:1px solid var(--ink); border-radius: 14px; }
+.bl-qty button{ background:none; border:none; width:22px; height:22px; cursor:pointer; }
+.bl-qty span{ width:20px; text-align:center; font-family:'Courier New',monospace; font-size:.78rem; }
+.bl-price{ font-family:'Courier New',monospace; font-weight:bold; }
+
+.basket-summary{ margin-top: 18px; }
+.summary-row{ display:flex; justify-content:space-between; font-family:'Courier New',monospace; font-size:.85rem; padding: 3px 0; color: var(--ink-soft); }
+.summary-row.total{ color: var(--ink); font-weight:bold; font-size: 1rem; border-top: 2px solid var(--ink); margin-top:8px; padding-top:10px; }
+
+/* checkout */
+.checkout-title{ font-size:1.3rem; margin: 4px 0 4px; clear:both; }
+.checkout-sub{ color: var(--ink-soft); font-size:.85rem; margin-bottom: 16px; }
+.co-field{ margin-bottom: 12px; }
+.co-field label{ display:block; font-family:'Courier New',monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color: var(--ink-soft); margin-bottom:5px; }
+.co-field input{
+  width:100%; padding: 9px 10px; border: 1.4px solid var(--ink); border-radius:3px;
+  font-family: Georgia, serif; font-size: .92rem; background: var(--card);
+}
+.co-field input:focus{ outline: 2px solid var(--rust); outline-offset:1px; }
+.co-row{ display:flex; gap:10px; }
+.co-row .co-field{ flex:1; }
+.ship-options{ display:flex; gap:10px; margin: 6px 0 4px; }
+.ship-opt{
+  flex:1; border: 1.4px solid var(--ink); border-radius:4px; padding:10px; cursor:pointer;
+  font-family:'Courier New',monospace; font-size:.78rem;
+}
+.ship-opt.is-selected{ background: var(--ink); color: var(--paper); }
+.co-error{ color: var(--rust); font-family:'Courier New',monospace; font-size:.75rem; margin-top:2px; min-height: 1em; }
+
+.pack-anim{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding: 60px 0;
+}
+.pack-box{ width: 90px; height:70px; position:relative; }
+.pack-box svg{ width:100%; height:100%; }
+.tape-strip{
+  position:absolute; top:50%; left:50%;
+  width: 0; height: 14px;
+  background: var(--rust);
+  transform: translate(-50%,-50%) rotate(0deg);
+  animation: tapeSeal 1s ease forwards .15s;
+}
+@keyframes tapeSeal{ to{ width: 100px; } }
+.pack-label{ font-family:'Courier New',monospace; font-size:.85rem; margin-top:18px; color: var(--ink-soft); }
+
+.confirm-body{ text-align:center; padding: 10px 0; }
+.confirm-stamp{
+  display:inline-block; border: 2.5px solid var(--olive); color: var(--olive);
+  padding: 8px 16px; border-radius: 6px; transform: rotate(-4deg);
+  font-family:'Courier New',monospace; font-weight:bold; letter-spacing:.08em;
+  margin-bottom: 16px;
+}
+.confirm-order{ font-family:'Courier New',monospace; font-size:.95rem; margin-bottom: 4px; }
+.confirm-eta{ color: var(--ink-soft); font-size:.85rem; margin-bottom: 20px; }
+.receipt{
+  text-align:left; background: var(--card); border:1.4px dashed var(--ink-soft);
+  padding: 14px; font-family:'Courier New',monospace; font-size:.78rem; margin-bottom: 20px;
+}
+.receipt div{ display:flex; justify-content:space-between; padding: 2px 0; }
+
+@media (max-width: 480px){
+  .co-row{ flex-direction:column; }
+}
